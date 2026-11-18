@@ -1,0 +1,772 @@
+<title>Taller — Abordaje de situaciones a través del dibujo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap">
+
+<style>
+/* ── tokens ─────────────────────────────────────────────── */
+:root {
+  --navy:   #103754;
+  --teal:   #97D3CB;
+  --white:  #ffffff;
+  --navy2:  #0d2d45;   /* darker navy for depth */
+  --teal2:  #7bbfb6;   /* teal hover */
+  --muted:  rgba(255,255,255,0.55);
+  --card:   rgba(255,255,255,0.07);
+  --border: rgba(255,255,255,0.12);
+
+  --fs-hero: clamp(2.6rem, 8vw, 5.5rem);
+  --fs-h2:   clamp(1.5rem, 4vw, 2.4rem);
+  --fs-h3:   clamp(1.1rem, 2.5vw, 1.4rem);
+  --fs-body: clamp(0.95rem, 2vw, 1.05rem);
+  --fs-sm:   0.85rem;
+
+  --radius: 14px;
+  --gap: clamp(1rem, 4vw, 2rem);
+
+  color-scheme: dark;
+}
+
+/* single-theme dark — no light variant */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--navy);
+  color: var(--white);
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+}
+
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+/* ── layout helpers ─────────────────────────────────────── */
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding-block: var(--gap);
+}
+
+.section {
+  padding-block: clamp(2.5rem, 7vw, 5rem);
+  border-top: 1px solid var(--border);
+}
+.section:first-of-type { border-top: none; }
+
+/* ── HERO ───────────────────────────────────────────────── */
+.hero {
+  padding-block: clamp(3rem, 10vw, 7rem) clamp(2rem, 6vw, 4rem);
+  position: relative;
+  overflow: hidden;
+}
+
+/* big decorative "30" behind hero */
+.hero::before {
+  content: "30";
+  position: absolute;
+  right: -0.1em;
+  top: -0.1em;
+  font-size: clamp(12rem, 40vw, 22rem);
+  font-weight: 700;
+  letter-spacing: -0.06em;
+  line-height: 0.85;
+  color: var(--teal);
+  opacity: 0.07;
+  pointer-events: none;
+  user-select: none;
+}
+
+.hero .label {
+  display: inline-block;
+  background: var(--teal);
+  color: var(--navy);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3em 0.9em;
+  border-radius: 100px;
+  margin-bottom: 1.5rem;
+}
+
+.hero h1 {
+  font-size: var(--fs-hero);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  margin-bottom: 1.2rem;
+  max-width: 14ch;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--teal);
+}
+
+.hero .byline {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: var(--muted);
+  max-width: 46ch;
+  margin-bottom: 2.5rem;
+  line-height: 1.5;
+}
+
+.hero .meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 2rem;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  margin-bottom: 2.5rem;
+}
+.hero .meta-row span { display: flex; align-items: center; gap: 0.4rem; }
+.hero .meta-row svg { flex-shrink: 0; }
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--teal);
+  color: var(--navy2);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  padding: 0.85em 1.8em;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.12s;
+}
+.btn-primary:hover { background: var(--teal2); transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+
+/* ── ABOUT SECTION ──────────────────────────────────────── */
+.about-quote {
+  font-size: clamp(1.2rem, 3vw, 1.65rem);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  padding-left: 1.2rem;
+  border-left: 3px solid var(--teal);
+  margin-bottom: 1.8rem;
+}
+
+.about-body {
+  color: rgba(255,255,255,0.72);
+  line-height: 1.75;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-top: 2rem;
+}
+
+.info-cell {
+  background: var(--card);
+  backdrop-filter: blur(4px);
+  padding: 1.2rem 1.4rem;
+}
+.info-cell .ic-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 0.3rem;
+}
+.info-cell .ic-val {
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+/* ── FORM ───────────────────────────────────────────────── */
+.form-heading { margin-bottom: 0.4rem; }
+.form-sub { color: var(--muted); margin-bottom: 2rem; font-size: var(--fs-sm); }
+
+.form-group { margin-bottom: 1.2rem; }
+.form-group label {
+  display: block;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 0.4rem;
+}
+.form-group .required { color: rgba(255,255,255,0.4); font-weight: 400; text-transform: none; letter-spacing: 0; margin-left: 0.3rem; font-size: 0.75rem; }
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="number"],
+.form-group textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--white);
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.75em 1em;
+  transition: border-color 0.15s, background 0.15s;
+  outline: none;
+  appearance: none;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--teal);
+  background: rgba(151,211,203,0.08);
+}
+.form-group input::placeholder,
+.form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+
+.form-group textarea { resize: vertical; min-height: 90px; }
+
+/* pills for sí/no */
+.pills { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.pill {
+  flex: 1;
+  min-width: 100px;
+  text-align: center;
+  padding: 0.65em 1.2em;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.pill:hover { border-color: var(--teal); color: var(--white); }
+.pill.selected {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: var(--navy2);
+}
+
+/* monto hint */
+.monto-hint {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.4rem;
+}
+
+.form-submit {
+  margin-top: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.8rem;
+}
+
+.btn-send {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--teal);
+  color: var(--navy2);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.85em 2em;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.12s;
+}
+.btn-send:hover { background: var(--teal2); transform: translateY(-1px); }
+.btn-send:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.form-privacy {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.35);
+}
+
+/* states */
+.form-success, .form-error { display: none; }
+.form-success {
+  background: rgba(151,211,203,0.12);
+  border: 1px solid rgba(151,211,203,0.35);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  text-align: center;
+}
+.form-success .success-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+.form-success h3 { margin-bottom: 0.4rem; }
+.form-success p { color: var(--muted); font-size: var(--fs-sm); }
+.form-error {
+  background: rgba(255,100,100,0.1);
+  border: 1px solid rgba(255,100,100,0.3);
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  font-size: var(--fs-sm);
+  color: #ffaaaa;
+}
+
+/* ── PAYMENT ────────────────────────────────────────────── */
+.payment-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.6rem;
+}
+
+.payment-card .pay-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 1.2rem;
+}
+
+.pay-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--border);
+  gap: 1rem;
+}
+.pay-row:last-of-type { border-bottom: none; }
+
+.pay-row .pk { font-size: var(--fs-sm); color: var(--muted); flex-shrink: 0; }
+.pay-row .pv { font-weight: 600; font-size: 0.95rem; word-break: break-all; }
+
+.copy-btn {
+  flex-shrink: 0;
+  background: rgba(151,211,203,0.1);
+  border: 1px solid rgba(151,211,203,0.25);
+  border-radius: 8px;
+  color: var(--teal);
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.3em 0.8em;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.copy-btn:hover { background: rgba(151,211,203,0.2); }
+.copy-btn.copied { color: #6fdc97; border-color: rgba(111,220,151,0.4); }
+
+.pay-note {
+  margin-top: 1.2rem;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── FOOTER ─────────────────────────────────────────────── */
+.footer {
+  padding-block: 2.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+.footer .ft-name { font-weight: 700; font-size: 1rem; }
+.footer .ft-contact { font-size: var(--fs-sm); color: var(--muted); }
+
+/* ── SETUP GUIDE ────────────────────────────────────────── */
+.setup-banner {
+  background: rgba(151,211,203,0.07);
+  border: 1px solid rgba(151,211,203,0.2);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.6rem;
+  margin-bottom: 2rem;
+}
+.setup-banner .sb-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--teal);
+  margin-bottom: 0.6rem;
+}
+.setup-banner ol {
+  padding-left: 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  color: rgba(255,255,255,0.7);
+  font-size: var(--fs-sm);
+}
+.setup-banner ol li code {
+  font-family: ui-monospace, monospace;
+  background: rgba(255,255,255,0.1);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  font-size: 0.82em;
+}
+.setup-banner .sb-note {
+  margin-top: 0.8rem;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.4);
+}
+
+/* ── SECTION HEADINGS ───────────────────────────────────── */
+.section-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 0.6rem;
+}
+.section h2 {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  margin-bottom: 1.2rem;
+  text-wrap: balance;
+}
+
+/* ── CHECKBOXES ────────────────────────────────────────── */
+.checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.8);
+  cursor: pointer;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+.check-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  accent-color: var(--teal);
+  cursor: pointer;
+}
+.inline-input {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--white);
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.3em 0.7em;
+  outline: none;
+  width: 160px;
+}
+.inline-input:focus { border-color: var(--teal); }
+
+/* ── WHATSAPP CTA ───────────────────────────────────────── */
+.wa-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.2rem;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+.wa-num {
+  font-weight: 700;
+  color: var(--teal);
+  letter-spacing: 0.03em;
+}
+</style>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  HERO                                                   -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="container">
+  <section class="hero">
+    <div class="label">Taller presencial · 30 de noviembre</div>
+    <h1>Abordaje de situaciones a través del <em>dibujo</em></h1>
+    <p class="byline">
+      Un espacio para explorar situaciones de la vida cotidiana usando el dibujo como herramienta. Sin experiencia previa en arte. Con muchas ganas de conectar con vos.
+    </p>
+    <div class="meta-row">
+      <span>
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Lunes 30 de noviembre, 2026
+      </span>
+      <span>
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        19:00 a 21:30 h
+      </span>
+      <span>
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3"/></svg>
+        Club Touch! — Paseo Carmelitas, Asunción
+      </span>
+      <span>
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        Hasta 35 personas
+      </span>
+    </div>
+    <a href="#inscripcion" class="btn-primary">
+      Quiero anotarme
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!--  ABOUT                                                 -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="section-label">De qué se trata</div>
+    <p class="about-body">
+      Abrimos el espacio para que llegue a más personas: vamos a usar el dibujo para abordar situaciones del día a día — sin necesidad de saber dibujar, sin presión estética. Solo exploramos juntos qué aparece cuando le damos una hoja y un lápiz a algo que traemos dentro.
+    </p>
+
+    <div class="info-grid">
+      <div class="info-cell">
+        <div class="ic-label">Cuándo</div>
+        <div class="ic-val">Lunes 30/11, 19–21:30 h</div>
+      </div>
+      <div class="info-cell">
+        <div class="ic-label">Dónde</div>
+        <div class="ic-val">Club Touch!, Paseo Carmelitas</div>
+      </div>
+      <div class="info-cell">
+        <div class="ic-label">Cupos</div>
+        <div class="ic-val">Hasta 35 personas</div>
+      </div>
+      <div class="info-cell">
+        <div class="ic-label">Inversión</div>
+        <div class="ic-val">55.000 Gs.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!--  FORM                                                  -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="section" id="inscripcion">
+    <div class="section-label">Inscripción</div>
+    <h2 class="form-heading">Anotate acá</h2>
+    <p class="form-sub">Completá el formulario y listo. Te escribimos por WhatsApp para confirmar tu lugar.</p>
+
+    <form id="regForm" novalidate>
+      <div class="form-group">
+        <label for="nombre">Nombre y apellido <span class="required">*</span></label>
+        <input type="text" id="nombre" name="nombre" placeholder="Ej: Ana García" required autocomplete="name">
+      </div>
+
+      <div class="form-group">
+        <label for="whatsapp">WhatsApp <span class="required">*</span></label>
+        <input type="text" id="whatsapp" name="whatsapp" placeholder="Ej: 0984 000 000" required autocomplete="tel">
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email <span class="required">(opcional)</span></label>
+        <input type="email" id="email" name="email" placeholder="tu@email.com" autocomplete="email">
+      </div>
+
+      <input type="hidden" id="monto" name="monto" value="55000">
+
+      <div class="form-group">
+        <label>¿Cómo te enteraste del taller? <span class="required">(opcional)</span></label>
+        <div class="checkboxes">
+          <label class="check-item"><input type="checkbox" name="enteraste" value="RRSS"> Redes sociales</label>
+          <label class="check-item"><input type="checkbox" name="enteraste" value="Recomendación"> Me lo recomendaron</label>
+          <label class="check-item"><input type="checkbox" name="enteraste" value="Otro"> Otro <input type="text" name="enteraste_otro" placeholder="Contanos…" class="inline-input"></label>
+        </div>
+      </div>
+
+      <div id="formError" class="form-error"></div>
+
+      <div class="form-submit">
+        <button type="submit" class="btn-send" id="submitBtn">
+          Enviar inscripción
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <p class="form-privacy">Tus datos se usan solo para organizar el taller. Nada más.</p>
+      </div>
+    </form>
+
+    <div class="form-success" id="formSuccess">
+      <div class="success-icon">🎨</div>
+      <h3>¡Listo! Te anotaste.</h3>
+      <p>Nos vemos el <strong>30 de noviembre</strong> en Club Touch!<br>
+      Te escribimos por WhatsApp para confirmar tu lugar.</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!--  PAYMENT                                               -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="section-label">Pago</div>
+    <h2>Datos de la cuenta bancaria</h2>
+    <p style="color:var(--muted);margin-bottom:1.5rem;font-size:var(--fs-sm);">
+      Podés transferir antes del taller. Guardá el comprobante y envialo al WhatsApp <a href="https://wa.me/595984159495" target="_blank" style="color:var(--teal);font-weight:700;text-decoration:none">0984 159 495</a> para confirmar tu lugar.
+    </p>
+
+    <div class="payment-card">
+      <div class="pay-label">Banco Continental</div>
+
+      <div class="pay-row">
+        <span class="pk">Titular</span>
+        <span class="pv">DUARTE AGUILERA BARBARA ELIZABETH</span>
+        <button class="copy-btn" onclick="copyText(this,'DUARTE AGUILERA BARBARA ELIZABETH')">Copiar</button>
+      </div>
+      <div class="pay-row">
+        <span class="pk">Cuenta</span>
+        <span class="pv">0867305602</span>
+        <button class="copy-btn" onclick="copyText(this,'0867305602')">Copiar</button>
+      </div>
+      <div class="pay-row">
+        <span class="pk">CI / Alias</span>
+        <span class="pv">2500703</span>
+        <button class="copy-btn" onclick="copyText(this,'2500703')">Copiar</button>
+      </div>
+
+      <p class="pay-note">
+        El valor del taller es <strong>Gs. 55.000</strong>. Reservá tu lugar antes que se agoten los cupos.<br>
+        Cualquier consulta al <a href="https://wa.me/595984159495" target="_blank" style="color:var(--teal);font-weight:700;text-decoration:none">0984 159 495</a> o a <span style="color:var(--teal)">barbie@agenciatuna.com</span>
+      </p>
+    </div>
+
+    <div class="wa-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color:var(--teal)"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span>Consultas:</span>
+      <span class="wa-num">0984 159 495</span>
+    </div>
+  </section>
+
+  <!-- footer -->
+  <footer class="footer">
+    <div>
+      <div class="ft-name">Barbie Duarte</div>
+      <div class="ft-contact">barbie@agenciatuna.com · 0984 159 495</div>
+    </div>
+    <div style="font-size:0.75rem;color:rgba(255,255,255,0.2)">
+      Taller 30/11/2026 · Club Touch!
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  APPS SCRIPT CODE — reference section                   -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<script>
+/* ── CONFIGURATION ─────────────────────────────────────── */
+// Paste your Apps Script web app URL here after deploying:
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxId8JKiQZ7Y-ho9pZm31FjQyZefVNdS09rS2uxSbJjErkZ0PvO4kWLrjoJLTRQ_YodMA/exec";
+
+/* ── pill selector ────────────────────────────────────────*/
+function selectPill(btn, fieldId) {
+  const parent = btn.closest('.pills');
+  parent.querySelectorAll('.pill').forEach(p => p.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById(fieldId).value = btn.dataset.val;
+}
+
+/* ── copy to clipboard ────────────────────────────────────*/
+function copyText(btn, text) {
+  const done = () => {
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
+  };
+  try {
+    navigator.clipboard.writeText(text).then(done).catch(() => fallback(btn, text, done));
+  } catch(e) { fallback(btn, text, done); }
+}
+function fallback(btn, text, done) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); done(); } catch(e) {}
+  ta.remove();
+}
+
+/* ── smooth scroll ────────────────────────────────────────*/
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const el = document.querySelector(a.getAttribute('href'));
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+/* ── form submit ──────────────────────────────────────────*/
+document.getElementById('regForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const errorEl = document.getElementById('formError');
+  errorEl.style.display = 'none';
+
+  // validate
+  const nombre = document.getElementById('nombre').value.trim();
+  const whatsapp = document.getElementById('whatsapp').value.trim();
+  const monto = parseInt(document.getElementById('monto').value, 10);
+
+  if (!nombre) return showError('Por favor ingresá tu nombre y apellido.');
+  if (!whatsapp) return showError('Por favor ingresá tu WhatsApp.');
+  if (!monto) return showError('Hubo un problema con el monto. Recargá la página.');
+
+  if (SCRIPT_URL === 'PEGAR_URL_AQUI') {
+    return showError('⚠️ La URL del Apps Script no está configurada todavía. Seguí los pasos del banner de arriba.');
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Enviando…';
+
+  const data = {
+    const enteraste = [...document.querySelectorAll('input[name="enteraste"]:checked')].map(c=>c.value);
+    const otroVal = document.querySelector('input[name="enteraste_otro"]').value.trim();
+    if (otroVal && enteraste.includes('Otro')) enteraste[enteraste.indexOf('Otro')] = 'Otro: '+otroVal;
+    const data = {
+    nombre,
+    whatsapp,
+    email: document.getElementById('email').value.trim(),
+    asistencia: 'Sí',
+    monto,
+    nota: enteraste.join(', '),
+    timestamp: new Date().toISOString()
+  };
+
+  try {
+    const res = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    // no-cors means we can't read the response, but if it didn't throw it went through
+    document.getElementById('regForm').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+  } catch(err) {
+    btn.disabled = false;
+    btn.innerHTML = 'Enviar inscripción <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+    showError('Hubo un problema al enviar. Intentá de nuevo o escribinos al 0984 159 495.');
+  }
+});
+
+function showError(msg) {
+  const el = document.getElementById('formError');
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+</script>
