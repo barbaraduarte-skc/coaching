@@ -732,11 +732,11 @@ document.getElementById('regForm').addEventListener('submit', async function(e) 
   btn.disabled = true;
   btn.textContent = 'Enviando…';
 
+  const enteraste = [...document.querySelectorAll('input[name="enteraste"]:checked')].map(c=>c.value);
+  const otroVal = document.querySelector('input[name="enteraste_otro"]').value.trim();
+  if (otroVal && enteraste.includes('Otro')) enteraste[enteraste.indexOf('Otro')] = 'Otro: '+otroVal;
+
   const data = {
-    const enteraste = [...document.querySelectorAll('input[name="enteraste"]:checked')].map(c=>c.value);
-    const otroVal = document.querySelector('input[name="enteraste_otro"]').value.trim();
-    if (otroVal && enteraste.includes('Otro')) enteraste[enteraste.indexOf('Otro')] = 'Otro: '+otroVal;
-    const data = {
     nombre,
     whatsapp,
     email: document.getElementById('email').value.trim(),
